@@ -13,4 +13,4 @@ This is a simple Connect Four game implemented using Python and sockets.
 
 **Additional resources:**
 * [[Link to Python documentation](https://docs.python.org/3/)]
-* [Link to sockets tutorial]
+* [[Link to sockets tutorial](https://docs.python.org/3/library/socket.html)]
