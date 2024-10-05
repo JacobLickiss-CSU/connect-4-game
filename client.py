@@ -34,11 +34,12 @@ def run_client():
                     manager = key.data
                     try:
                         manager.process(mask)
+
+                        message = input("Enter a message for the server: ")
+                        manager.schedule_message(bytes(message, encoding="utf-8"))
                     except Exception:
                         print("Exception in connection with ", f"{manager.address}:\n{traceback.format_exc()}")
                         manager.close()
-                    message = input("Enter a message for the server: ")
-                    manager.schedule_message(bytes(message, encoding="utf-8"))
     except KeyboardInterrupt:
         print("Closing client...")
     finally:
