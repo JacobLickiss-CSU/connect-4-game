@@ -2,10 +2,19 @@
 
 This is a simple Connect Four game implemented using Python and sockets.
 
+**Status:**
+1. Currently, regular gameplay is not implemented.
+2. Each connected client can send messages to the server, this is done by running the client and then entering messages to send through the terminal.
+3. The server will echo messages back to the clients. These will be seen by the client after another message is entered, as input is a blocking action.
+
 **How to play:**
 1. **Start the server:** Run the `server.py` script.
 2. **Connect clients:** Run the `client.py` script on two different machines or terminals.
 3. **Play the game:** Players take turns entering their moves. For their move, each player selects a column to drop one of their tokens in. The token falls from the top of the column, stopping at the last available slot. The first player to line four of their tokens up wins the game.
+
+**Options:**
+1. **Server Options** Server options include -i to set the host address and -p to set the port. Use -h or --help for more info.
+2. **Client Options** Client options include -i to set the server address, -p to set the server port, and -n to set the server DNS address. If -n is used, it will take priority over -i. Use -h or --help for more info.
 
 **Technologies used:**
 * Python
