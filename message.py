@@ -10,6 +10,8 @@ class Message:
     INFO = "INFO"
     PLAY = "PLAY"
     RSLT = "RSLT"
+    WAIT = "WAIT"
+    OVER = "OVER"
 
     def __init__(self, message_type, content):
         # Message type - A four byte string which indicates the purpose of the message

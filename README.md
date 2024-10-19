@@ -4,8 +4,10 @@ This is a simple Connect Four game implemented using Python and sockets.
 
 **Status:**
 1. Currently, regular gameplay is not implemented.
-2. Each connected client can send messages to the server, this is done by running the client and then entering messages to send through the terminal.
-3. The server will echo messages back to the clients. These will be seen by the client after another message is entered, as input is a blocking action.
+2. Connected clients are asked to provide a display name for the server. This information is sent to the server to begin looking for another matched player.
+3. The server will listen for client connections, and will match players together after receiving a naming message.
+4. The server will maintain information about ongoing matches between players, and inform the player when their opponent has left.
+5. Basic game state features are included but not yet fully implemented. No further messages can be sent by the clients to modify the game state.
 
 **How to play:**
 1. **Start the server:** Run the `server.py` script.

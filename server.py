@@ -6,7 +6,9 @@ import socket
 import selectors
 import traceback
 
-import smanager
+import servermatch
+from smanager import ServerManager
+from gamestate import GameState
 
 # Create the argument parser
 parser = argparse.ArgumentParser(
@@ -25,7 +27,7 @@ sel = selectors.DefaultSelector()
 def accept_connection(socket):
     connection, address = socket.accept()
     connection.setblocking(False)
-    manager = smanager.ServerManager(sel, connection, address)
+    manager = ServerManager(sel, connection, address)
     sel.register(connection, selectors.EVENT_READ | selectors.EVENT_WRITE, manager)
     print("Connection established with ", address)
 
@@ -43,6 +45,7 @@ def run_server():
                         manager.process(mask)
                     except Exception:
                         print("Exception in connection with ", f"{manager.address}:\n{traceback.format_exc()}")
+                        servermatch.game_disconnect(manager, "Opponent disconnected.")
                         manager.close()
     except KeyboardInterrupt:
         print("Closing server...")

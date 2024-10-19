@@ -8,6 +8,7 @@ import traceback
 import struct
 
 import cmanager
+from message import Message
 
 # Create the argument parser
 parser = argparse.ArgumentParser(
@@ -34,12 +35,12 @@ def run_client():
                     manager = key.data
                     try:
                         manager.process(mask)
-
-                        message = input("Enter a message for the server: ")
-                        manager.schedule_message(bytes(message, encoding="utf-8"))
                     except Exception:
                         print("Exception in connection with ", f"{manager.address}:\n{traceback.format_exc()}")
                         manager.close()
+            # Watch for closed sel
+            if not sel.get_map():
+                break
     except KeyboardInterrupt:
         print("Closing client...")
     finally:
@@ -54,6 +55,9 @@ def begin_client():
     events = selectors.EVENT_READ | selectors.EVENT_WRITE
     manager = cmanager.ClientManager(sel, sock, address)
     sel.register(sock, events, data=manager)
+    name = input("Enter a display name: ")
+    message = Message(Message.NAME, name)
+    manager.schedule_message(message.pack())
     run_client()
 
 begin_client()
