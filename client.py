@@ -56,6 +56,7 @@ def begin_client():
     manager = cmanager.ClientManager(sel, sock, address)
     sel.register(sock, events, data=manager)
     name = input("Enter a display name: ")
+    manager.player.name = name
     message = Message(Message.NAME, name)
     manager.schedule_message(message.pack())
     run_client()

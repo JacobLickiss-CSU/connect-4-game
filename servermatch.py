@@ -30,9 +30,12 @@ def assign_game(manager):
     if match_state is None:
         match_state = GameState()
         game_states[manager] = match_state
+        match_state.player_a = manager
     else:
         game_states[manager] = match_state
         to_activate = get_managers(match_state)
+        match_state.player_b = manager
+        match_state.send_opponent_name()
         for manager in to_activate:
             manager.match_made(match_state)
         match_state = None

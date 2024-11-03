@@ -11,6 +11,7 @@ class Manager:
         self.address = address
         self._read_buffer = b""
         self._write_buffer = b""
+        self.log = False
 
 
     def process(self, mask):
@@ -33,6 +34,8 @@ class Manager:
 
 
     def schedule_message(self, message):
+        if(self.log):
+            print("(" + str(self.address) + ") " + "Writing to buffer: " + str(message))
         self._write_buffer += message
 
 
@@ -47,6 +50,8 @@ class Manager:
         else:
             if data:
                 self._read_buffer += data
+                if(self.log):
+                    print("(" + str(self.address) + ") " + "Received data: " + str(data))
             else:
                 raise RuntimeError("Connection closed.")
         self.post_read()

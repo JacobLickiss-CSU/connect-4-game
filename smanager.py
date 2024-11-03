@@ -16,6 +16,7 @@ class ServerManager(connectionmanager.Manager):
         super().__init__(selector, sock, address)
         self.player = PlayerState()
         self.game_state = None
+        self.log = True
 
     def post_read(self):
         # Read messages from the buffer
@@ -27,7 +28,7 @@ class ServerManager(connectionmanager.Manager):
             # Apply those messages to the game state
             if(self.game_state is not None):
                 for message in messages:
-                    self.game_state.apply_message_server(message)
+                    self.game_state.apply_message_server(message, self)
             else:
                 if(self.match_ready()):
                     self.schedule_message(Message(Message.WAIT, "0").pack())
@@ -41,6 +42,10 @@ class ServerManager(connectionmanager.Manager):
     def match_made(self, game_state):
         self.game_state = game_state
         self.schedule_message(Message(Message.PLAY, "1").pack())
+        self.schedule_message(Message(Message.INFO, self.game_state.get_player_symbol(self)).pack())
+        self.game_state.send_opponent_player(self)
+        self.game_state.broadcast_board(self)
+        self.schedule_message(Message(Message.TURN, GameState.A).pack())
 
 
     def match_ended(self, reason = "None."):
