@@ -18,6 +18,8 @@ class Message:
     TURN = "TURN"
     STAT = "STAT"
     PLYR = "PLYR"
+    REPL = "REPL"
+    
 
     def __init__(self, message_type, content):
         # Message type - A four byte string which indicates the purpose of the message

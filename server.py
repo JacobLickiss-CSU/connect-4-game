@@ -16,7 +16,7 @@ parser = argparse.ArgumentParser(
     description= "A server for the connect four network game. While running, clients can connect and play a game of connect four."
 )
 # Add arguments to the parser
-parser.add_argument('-i', '--ip', help="The host IP address.", default="127.0.0.1") 
+parser.add_argument('-i', '--ip', help="The host IP address.", default="0.0.0.0") 
 parser.add_argument('-p', '--port', help="The host port.", default=65432) 
 # Parse arguments
 args = parser.parse_args()
@@ -56,9 +56,9 @@ def run_server():
 def begin_server():
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-    sock.bind((args.ip, args.port))
+    sock.bind((args.ip, int(args.port)))
     sock.listen()
-    print("Server started on", (args.ip, args.port))
+    print("Server started on", (args.ip, int(args.port)))
     print("Ctrl+C to close the server.")
     sock.setblocking(False)
     sel.register(sock, selectors.EVENT_READ | selectors.EVENT_WRITE, data=None)

@@ -41,6 +41,13 @@ def assign_game(manager):
         match_state = None
 
 
+def requeue_game(manager):
+    global game_states
+    global match_state
+    del game_states[manager]
+    assign_game(manager)
+
+
 def end_game(game_state, reason):
     global game_states
     global match_state

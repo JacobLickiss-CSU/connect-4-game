@@ -59,11 +59,14 @@ class GameState:
 
                 # Check for win conditions
                 if(self.check_win()):
-                    # TODO
-                    pass
-
-                # Swap the turn
-                self.swap_turn()
+                    self.broadcast_to_players(Message(Message.OVER, manager.player.name + " has won!").pack())
+                    self.wipe_game()
+                elif(self.check_draw()):
+                    self.broadcast_to_players(Message(Message.OVER, "It's a draw!").pack())
+                    self.wipe_game()
+                else:
+                    # Swap the turn
+                    self.swap_turn()
 
     # Send the board state through the given manager
     def broadcast_board(self, manager):
@@ -160,7 +163,69 @@ class GameState:
     
     # Check for the win condition
     def check_win(self):
+        for y in range(0, GameState.HEIGHT):
+            for x in range(0, GameState.WIDTH):
+                base_value = self.board[x][y]
+                if(base_value == GameState.EMPTY):
+                    continue
+                for dir in range(0, 8):
+                    dx, dy = self.get_direction(dir)
+                    for step in range(1, 4):
+                        check_x = x + (dx * step)
+                        check_y = y + (dy * step)
+                        if(check_x < 0 or check_x >= GameState.WIDTH or check_y < 0 or check_y >= GameState.HEIGHT):
+                            break
+                        check_value = self.board[check_x][check_y]
+                        if(base_value != check_value):
+                            break
+                        if(step == 3):
+                            return True
         return False
+    
+
+    # Check for draw conditions. This assumes win conditions have already been checked for.
+    def check_draw(self):
+        for y in range(0, GameState.HEIGHT):
+            for x in range(0, GameState.WIDTH):
+                if(self.board[x][y] == GameState.EMPTY):
+                    return False
+        return True
+    
+
+    def wipe_game(self):
+        self.player_a.game_state = None
+        self.player_b.game_state = None
+
+
+    def get_direction(self, dir):
+        dx = 0
+        dy = 0
+        match dir:
+            case 0:
+                dx = 0
+                dy = -1
+            case 1:
+                dx = 1
+                dy = -1
+            case 2:
+                dx = 1
+                dy = 0
+            case 3:
+                dx = 1
+                dy = 1
+            case 4:
+                dx = 0
+                dy = 1
+            case 5:
+                dx = -1
+                dy = 1
+            case 6:
+                dx = -1
+                dy = 0
+            case 7:
+                dx = -1
+                dy = -1
+        return (dx, dy)
 
 
     # Apply a message, on a client

@@ -29,10 +29,19 @@ class ServerManager(connectionmanager.Manager):
             if(self.game_state is not None):
                 for message in messages:
                     self.game_state.apply_message_server(message, self)
+                    if(message.message_type == Message.REPL):
+                        self.requeue()
+                        break
             else:
                 if(self.match_ready()):
                     self.schedule_message(Message(Message.WAIT, "0").pack())
                     servermatch.assign_game(self)
+
+
+    def requeue(self):
+        self.game_state = None
+        self.schedule_message(Message(Message.WAIT, "0").pack())
+        servermatch.requeue_game(self)
 
 
     def match_ready(self):
@@ -49,8 +58,9 @@ class ServerManager(connectionmanager.Manager):
 
 
     def match_ended(self, reason = "None."):
-        self.game_state = None
-        self.schedule_message(Message(Message.OVER, reason).pack())
+        if(self.game_state != None):
+            self.game_state = None
+            self.schedule_message(Message(Message.OVER, reason).pack())
 
 
     def close(self):

@@ -24,7 +24,7 @@ class ClientManager(connectionmanager.Manager):
             for message in messages:
                 if(message.message_type == Message.OVER):
                     print("The game has ended! Reason: " + message.content)
-                    self.close()
+                    self.request_replay()
                 if(message.message_type == Message.INFO):
                     self.set_symbol(message.content)
                 if(message.message_type == Message.HALT):
@@ -70,3 +70,24 @@ class ClientManager(connectionmanager.Manager):
             except(ValueError):
                 column = input("Try again (1-7): ")
         self.schedule_message(Message(Message.MOVE, column).pack())
+
+    
+    def request_replay(self):
+        replay = self.get_player_replay()
+        if(replay):
+            self.schedule_message(Message(Message.REPL, "1").pack())
+        else:
+            self.close()
+
+
+    def get_player_replay(self):
+        response = input("Queue for another match? (y/n): ")
+        parsed = None
+        while parsed is None:
+            if(response == "y" or response == "Y" or response == "yes"):
+                parsed = True
+            elif(response == "n" or response == "N" or response == "no"):
+                parsed = False
+            else:
+                response = input("Queue for another match? (y/n): ")
+        return parsed

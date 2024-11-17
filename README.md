@@ -3,7 +3,7 @@
 This is a simple Connect Four game implemented using Python and sockets.
 
 **Status:**
-1. Currently, gameplay is implemented, but win conditions are not.
+1. Gameplay is fully implemented, including accepting user actions, syncing game state, declaring a winner, and allowing a player to play another round.
 2. Connected clients are asked to provide a display name for the server. This information is sent to the server to begin looking for another matched player.
 3. The server will listen for client connections, and will match players together after receiving a naming message.
 4. The server will maintain information about ongoing matches between players, and inform the player when their opponent has left.
@@ -11,6 +11,8 @@ This is a simple Connect Four game implemented using Python and sockets.
 6. Players can alter the game state on their turn by sending move messages. The server determines if those moves are legal before implementing them.
 7. Game state information is rendered to the player when it is updated from the server.
 8. If either player disconnects, the game ends.
+9. If a win or draw condition is detected by the server, the clients will be informed.
+10. When informed of a game over for any reason, players have the option to re-queue for another game.
 
 **How to play:**
 1. **Start the server:** Run the `server.py` script.
