@@ -1,5 +1,3 @@
-import server
-import client
 from message import Message
 
 # Test a message exchange
