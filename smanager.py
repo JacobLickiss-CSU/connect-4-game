@@ -29,10 +29,11 @@ class ServerManager(connectionmanager.Manager):
             if(self.game_state is not None):
                 for message in messages:
                     self.game_state.apply_message_server(message, self)
+            else:
+                for message in messages:
                     if(message.message_type == Message.REPL):
                         self.requeue()
-                        break
-            else:
+                        return
                 if(self.match_ready()):
                     self.schedule_message(Message(Message.WAIT, "0").pack())
                     servermatch.assign_game(self)

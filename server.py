@@ -21,6 +21,13 @@ parser.add_argument('-p', '--port', help="The host port.", default=65432)
 # Parse arguments
 args = parser.parse_args()
 
+try:
+    parsed = int(args.port)
+    if(parsed < 0 or parsed > 65535):
+        print("Port must be a valid integer between 1 and 65535!")
+except ValueError:
+    print("Port must be a valid integer between 1 and 65535!")
+
 # Get the default selector
 sel = selectors.DefaultSelector()
 

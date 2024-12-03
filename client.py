@@ -22,6 +22,13 @@ parser.add_argument('-n', '--DNS', help='DNS name of the server.')
 # Parse arguments
 args = parser.parse_args()
 
+try:
+    parsed = int(args.port)
+    if(parsed < 0 or parsed > 65535):
+        print("Port must be a valid integer between 1 and 65535!")
+except ValueError:
+    print("Port must be a valid integer between 1 and 65535!")
+
 sel = selectors.DefaultSelector()
 
 def run_client():
@@ -47,7 +54,7 @@ def run_client():
         sel.close()
 
 def begin_client():
-    address = (args.DNS if args.DNS else args.ip, args.port)
+    address = (args.DNS if args.DNS else args.ip, int(args.port))
     print("Connecting to ", f"{address} ...")
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     sock.setblocking(False)

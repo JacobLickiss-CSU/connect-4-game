@@ -18,6 +18,7 @@ This is a simple Connect Four game implemented using Python and sockets.
 1. **Start the server:** Run the `server.py` script.
 2. **Connect clients:** Run the `client.py` script on two different machines or terminals.
 3. **Play the game:** Players take turns entering their moves. For their move, each player selects a column to drop one of their tokens in. The token falls from the top of the column, stopping at the last available slot. The first player to line four of their tokens up wins the game.
+4. **Running Tests** To run automated tests, run the `tests.py` script. If all tests pass, the message "All tests passed!" will be displayed.
 
 **Options:**
 1. **Server Options** Server options include -i to set the host address and -p to set the port. Use -h or --help for more info.
@@ -30,6 +31,9 @@ This is a simple Connect Four game implemented using Python and sockets.
 **Additional resources:**
 * [[Link to Python documentation](https://docs.python.org/3/)]
 * [[Link to sockets tutorial](https://docs.python.org/3/library/socket.html)]
+
+**Security/Risk Evaluation**
+There exists some security improvements which could be made. Currently, the client and server both assume that the official counterpart is running on the other end. Adding checks to verify that the format of the data coming in is correct, and that it is not maliciously formatted, would improve security. Some potential malicious formats would be sending an extremely long message, a message shorter than the minimum header size, or a message with an incorrect data length. The server does check for valid moves from the client, so game state security at least does not rely on the client being honest. However, very little is verified by the client of what comes in from the server, so a malicious server might be able to find a way to inject something malicious to cause the client to behave abnormally. All of these issues could be addressed by both sides of the connection not trusting the incoming data and more cautiously verifying it.
 
 # SOW (Statement Of Work)
 

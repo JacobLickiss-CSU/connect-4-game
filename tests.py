@@ -1,3 +1,5 @@
+import server
+import client
 from message import Message
 
 # Test a message exchange
@@ -54,3 +56,5 @@ assert(len(g_unpacked) == 1)
 assert(g_unpacked[0].message_type == "TST2")
 assert(g_unpacked[0].content == "Hello Planet!")
 assert(g_leftover == a_packed[:7])
+
+print("All tests passed!")
