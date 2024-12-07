@@ -35,6 +35,22 @@ This is a simple Connect Four game implemented using Python and sockets.
 **Security/Risk Evaluation**
 * There exists some security improvements which could be made. Currently, the client and server both assume that the official counterpart is running on the other end. Adding checks to verify that the format of the data coming in is correct, and that it is not maliciously formatted, would improve security. Some potential malicious formats would be sending an extremely long message, a message shorter than the minimum header size, or a message with an incorrect data length. The server does check for valid moves from the client, so game state security at least does not rely on the client being honest. However, very little is verified by the client of what comes in from the server, so a malicious server might be able to find a way to inject something malicious to cause the client to behave abnormally. All of these issues could be addressed by both sides of the connection not trusting the incoming data and more cautiously verifying it.
 
+**Retrospective**
+* What went well: The majority of the plans for the project were implemented without issue. The scope was even slightly expanded to include a server matchmaking service after the initial SOW. The game can be played all the way through, has a friendly and approachable user interface, and edge cases are handled gracefully. All major bugs have been fixed and the game can be played without any issues. The communication protocol is simple, preventing bugs through overcomplication.
+* What could be improved on: Some stack traces are still printed in the server log for issues that could be logged in simpler terms, such as unexpected disconnecting from users. The communication protocol could also be improved to not always require body values, as sometimes sending a message of a certain type is all that is required. It would also be an improvement to serialize transmitted data in the body as json objects, to allow more complex messages without needing more complex parsing.
+
+**Roadmap**
+
+If this project were taken any further, the following features would be desireable:
+
+* Configurable board size.
+* Configurable win connection length.
+* New game modes, such as three player rules.
+* Unique win conditions.
+* Chat functionality between players.
+* A web based user interface.
+* A player leaderboard.
+
 # SOW (Statement Of Work)
 
 **Project Title:**
